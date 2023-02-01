@@ -5,8 +5,6 @@ Regex scramble user data
 from typing import List
 import re
 
-# "name=egg;email=eggmin@eggsample.com;password=eggcellent;date_of_birth=12/12/1986;"
-
 
 def filter_datum(fields: List[str],
                  redaction: str, message: str,
