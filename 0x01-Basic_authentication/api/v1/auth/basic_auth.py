@@ -76,7 +76,7 @@ class BasicAuth(Auth):
         if user_pass:
             user_pass = self.extract_user_credentials(user_pass)
             print("extracted", user_pass)
-        if not user_pass[0] and not user_pass[1]:
+        if user_pass[0] is None and user_pass[1] is None:
             return None
         user_pass = self.user_object_from_credentials(
             user_email=user_pass[0], user_pwd=user_pass[1])
