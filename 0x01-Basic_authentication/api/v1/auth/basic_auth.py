@@ -6,6 +6,7 @@ from .auth import Auth
 from typing import Optional, TypeVar
 import base64
 from models.user import User
+from flask import request
 
 
 class BasicAuth(Auth):
@@ -69,13 +70,10 @@ class BasicAuth(Auth):
         """ Get current_user """
         user_pass = self.extract_base64_authorization_header(
             request.headers.get("Authorization"))
-        print("extracted base 64", user_pass)
         if user_pass:
             user_pass = self.decode_base64_authorization_header(user_pass)
-            print(user_pass, "decoded 64")
         if user_pass:
             user_pass = self.extract_user_credentials(user_pass)
-            print("extracted", user_pass)
         if user_pass[0] is None and user_pass[1] is None:
             return None
         user_pass = self.user_object_from_credentials(
