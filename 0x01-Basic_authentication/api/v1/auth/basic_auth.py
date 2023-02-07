@@ -44,7 +44,8 @@ class BasicAuth(Auth):
             return (None, None)
         if ":" not in decoded_base64_authorization_header:
             return (None, None)
-        data = decoded_base64_authorization_header.split(":")
+        data = decoded_base64_authorization_header.split(":", maxsplit=1)
+        print(data)
         return (data[0], data[1])
 
     def user_object_from_credentials(
