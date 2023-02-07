@@ -15,11 +15,9 @@ class Auth:
             return True
         if excluded_paths is None or excluded_paths == []:
             return True
-        _path = path
-        if _path[-1] != "/":
-            _path = _path + "/"
-        if _path in excluded_paths:
-            print(_path, "in",  excluded_paths)
+        if path[-1] != "/":
+            path += "/"
+        if path in excluded_paths:
             return False
         return True
 
