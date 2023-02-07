@@ -68,8 +68,9 @@ class BasicAuth(Auth):
 
     def current_user(self, request=None) -> TypeVar('User'):
         """ Get current_user """
-        user_pass = self.extract_base64_authorization_header(
-            request.headers.get("Authorization"))
+        user_pass = self.authorization_header(request)
+        if user_pass:
+            user_pass = self.extract_base64_authorization_header(user_pass)
         if user_pass:
             user_pass = self.decode_base64_authorization_header(user_pass)
         if user_pass:
