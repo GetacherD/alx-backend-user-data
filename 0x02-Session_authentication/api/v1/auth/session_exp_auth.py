@@ -21,6 +21,7 @@ class SessionExpAuth(SessionAuth):
     def create_session(self, user_id=None):
         """ overload create_session """
         res = super().create_session(user_id)
+        print("super session", res)
         if not res:
             return None
         self.user_id_by_session_id[res] = {
@@ -31,20 +32,20 @@ class SessionExpAuth(SessionAuth):
         """ get user_id for session """
         if session_id is None:
             return None
-        print(session_id, "session_id", self.user_id_by_session_id)
         if session_id not in self.user_id_by_session_id:
             return None
-
+        if self.session_duration <= 0:
+            kk = self.user_id_by_session_id.get(session_id)
+            kk = kk.get("user_id")
+            print(kk)
+            kk = self.user_id_by_session_id.get(kk)
+            return kk
         if not self.user_id_by_session_id.get(session_id).get("created_at"):
             return None
         tm = self.user_id_by_session_id.get(session_id).get("created_at")
-        print(tm)
         future = self.user_id_by_session_id.get(session_id).get(
             "created_at") + timedelta(seconds=self.session_duration)
         now = datetime.now()
         if future < now:
-            print("Gena New")
             return None
-        if self.session_duration <= 0:
-            return self.user_id_by_session_id.get(session_id)
         return self.user_id_by_session_id.get(session_id).get("user_id")
