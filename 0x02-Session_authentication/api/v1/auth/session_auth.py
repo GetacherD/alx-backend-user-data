@@ -41,11 +41,11 @@ class SessionAuth(Auth):
         """ remove session """
         if request is None:
             return False
-        cookie_name = self.session_cookie(request)
-        if self.session_cookie(request) not in request.cookies:
+        session_id = self.session_cookie(request)
+        if not session_id:
             return False
-        user_id = self.user_id_for_session_id(cookie_name)
+        user_id = self.user_id_for_session_id(session_id)
         if not user_id:
             return False
-        self.user_id_by_session_id.pop(user_id, None)
+        self.user_id_by_session_id.pop(session_id, None)
         return True
