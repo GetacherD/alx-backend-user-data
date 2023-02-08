@@ -36,3 +36,16 @@ class SessionAuth(Auth):
             self.create_session(user_id)
             return user
         return None
+
+    def destroy_session(self, request=None):
+        """ remove session """
+        if request is None:
+            return False
+        cookie_name = self.session_cookie(request)
+        if self.session_cookie(request) not in request.cookies:
+            return False
+        user_id = self.user_id_for_session_id(cookie_name)
+        if not user_id:
+            return False
+        self.user_id_by_session_id.pop(user_id, None)
+        return True
