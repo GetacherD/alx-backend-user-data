@@ -30,13 +30,9 @@ class SessionAuth(Auth):
     def current_user(self, request=None):
         """ get current_user """
         cookie_val = self.session_cookie(request)
-        print(cookie_val)
         user_id = self.user_id_for_session_id(cookie_val)
-        print(user_id)
         user = User.get(user_id)
-        print(user)
         if user:
-            print(user.id)
             self.create_session(user.id)
             return user
         return None
