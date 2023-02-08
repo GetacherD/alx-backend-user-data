@@ -20,28 +20,22 @@ class SessionExpAuth(SessionAuth):
 
     def create_session(self, user_id=None):
         """ overload create_session """
-        res = super().create_session(user_id)
-        print("super session", res)
-        if not res:
+        session_id = super().create_session(user_id)
+        if not session_id:
             return None
-        self.user_id_by_session_id[res] = {
+        self.user_id_by_session_id[session_id] = {
             "user_id": user_id, "created_at": datetime.now()}
-        return res
+        return session_id
 
     def user_id_for_session_id(self, session_id=None):
         """ get user_id for session """
-        if session_id is None:
+        if session_id is None or type(session_id) != str:
             return None
-        if session_id not in self.user_id_by_session_id:
+        session_dict = self.user_id_by_session_id.get(session_id)
+        if not session_dict or "created_at" not in session_dict:
             return None
         if self.session_duration <= 0:
-            kk = self.user_id_by_session_id.get(session_id)
-            kk = kk.get("user_id")
-            print(kk)
-            kk = self.user_id_by_session_id.get(kk)
-            return kk
-        if not self.user_id_by_session_id.get(session_id).get("created_at"):
-            return None
+            return session_dict.get("user_id")
         tm = self.user_id_by_session_id.get(session_id).get("created_at")
         future = self.user_id_by_session_id.get(session_id).get(
             "created_at") + timedelta(seconds=self.session_duration)
