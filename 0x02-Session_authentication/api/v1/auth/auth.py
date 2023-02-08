@@ -3,11 +3,20 @@
 Basic Authentication
 """
 from flask import request
+from os import getenv
 from typing import List, TypeVar, Optional
 
 
 class Auth:
     """ Authentication Class """
+
+    def session_cookie(self, request=None):
+        """ get cookie from request """
+        if request is None:
+            return None
+        _my_session_id = getenv("SESSION_NAME")
+        cookie_val = request.cookies.get(_my_session_id)
+        return cookie_val
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """ decorator to make sure logged in """
