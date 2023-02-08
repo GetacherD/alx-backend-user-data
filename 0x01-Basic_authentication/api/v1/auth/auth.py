@@ -17,8 +17,9 @@ class Auth:
             return True
         if path[-1] != "/":
             path += "/"
-        if path in excluded_paths or path.startswith(
-                excluded_paths[0][:excluded_paths[0].index("*")]):
+        if path in excluded_paths or (
+                "*" in excluded_paths[0] and path.startswith(
+                excluded_paths[0][:excluded_paths[0].index("*")])):
             return False
         return True
 
