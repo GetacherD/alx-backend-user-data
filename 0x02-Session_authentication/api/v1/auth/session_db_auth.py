@@ -4,6 +4,7 @@ saved session
 """
 from .session_exp_auth import SessionExpAuth
 from models.user_session import UserSession
+from datetime import datetime, timedelta
 
 
 class SessionDBAuth(SessionExpAuth):
@@ -27,7 +28,7 @@ class SessionDBAuth(SessionExpAuth):
             return None
         UserSession.load_from_file()
         user_sess = UserSession.search({"session_id": session_id})
-        if user_sess is None:
+        if user_sess is None and user_sess != []:
             return None
         user = user_sess[0]
         if user is None:
