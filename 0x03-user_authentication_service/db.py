@@ -51,11 +51,14 @@ class DB:
 
     def update_user(self, user_id: int, **kwargs: dict) -> None:
         """ update user """
-        usr = self._session.get(User, user_id)
         attrs = ["id", "email", "hashed_password", "session_id", "reset_token"]
         for key in kwargs:
             if key not in attrs:
                 raise ValueError
+        try:
+            usr = self.find_user_by(id=user_id)
+        except Exception:
+            raise ValueError
         if usr:
             for key, val in kwargs.items():
                 setattr(usr, key, val)
