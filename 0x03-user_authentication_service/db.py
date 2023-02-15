@@ -8,7 +8,6 @@ from sqlalchemy.orm.session import Session
 from user import Base, User
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
-from sqlalchemy import select, and_
 
 
 class DB:
@@ -44,5 +43,7 @@ class DB:
         try:
             u = self._session.query(User).filter_by(**kwargs)[0]
             return u
-        except IndexError:
-            raise NoResultFound
+        except IndexError as exc:
+            raise NoResultFound from exc
+        except InvalidRequestError:
+            raise InvalidRequestError
