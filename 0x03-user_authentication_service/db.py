@@ -43,7 +43,12 @@ class DB:
         if not kwargs:
             raise InvalidRequestError
         try:
-            u = self._session.query(User).filter_by(**kwargs)[0]
-            return u
-        except IndexError:
+            u = self._session.query(User).filter_by(**kwargs).first()
+            if u:
+                return u
+            else:
+                raise NoResultFound
+        except NoResultFound:
             raise NoResultFound
+        except InvalidRequestError:
+            raise InvalidRequestError
