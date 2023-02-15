@@ -44,7 +44,7 @@ def login():
         return resp
 
 
-@app.route("/logout", strict_slashes=False, methods=["DELETE"])
+@app.route("/sessions", strict_slashes=False, methods=["DELETE"])
 def logout() -> None:
     """ log out user session """
     if request.method == "DELETE":
