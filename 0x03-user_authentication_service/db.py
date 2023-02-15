@@ -8,6 +8,7 @@ from sqlalchemy.orm.session import Session
 from user import Base, User
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
+import bcrypt
 
 
 class DB:
@@ -43,11 +44,11 @@ class DB:
         attrs = ["id", "email", "hashed_password", "session_id", "reset_token"]
         for key in kwargs:
             if key not in attrs:
-                raise InvalidRequestError
-        usr = self._session.query(User).filter_by(**kwargs).first()
+                raise InvalidRequestError()
+        usr = self._session.query(User).filter_by(**kwargs)
         if not usr:
-            raise NoResultFound
-        return usr
+            raise NoResultFound()
+        return usr.first()
 
     def update_user(self, user_id: int, **kwargs: dict) -> None:
         """ update user """
