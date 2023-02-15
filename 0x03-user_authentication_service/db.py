@@ -45,10 +45,10 @@ class DB:
         for key in kwargs:
             if key not in attrs:
                 raise InvalidRequestError()
-        usr = self._session.query(User).filter_by(**kwargs)
+        usr = list(self._session.query(User).filter_by(**kwargs))
         if not usr:
             raise NoResultFound()
-        return usr.first()
+        return usr[0]
 
     def update_user(self, user_id: int, **kwargs: dict) -> None:
         """ update user """
