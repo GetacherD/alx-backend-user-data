@@ -58,7 +58,7 @@ def logout() -> None:
             abort(403)
 
 
-@app.route("/profile", strict_slashes=False, methods=["GET"])
+@app.route("/profile", strict_slashes=False)
 def profile():
     """ display user profile """
     sid = request.cookies.get("session_id")
