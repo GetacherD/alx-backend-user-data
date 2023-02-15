@@ -40,8 +40,6 @@ class DB:
 
     def find_user_by(self, **kwargs: dict) -> User:
         """ get user filter_by kwargs criteria """
-        if not kwargs:
-            raise InvalidRequestError
         attrs = ["id", "email", "hashed_password", "session_id", "reset_token"]
         for key in kwargs:
             if key not in attrs:
