@@ -49,14 +49,11 @@ def logout():
     """ log out user session """
     if request.method == "DELETE":
         sid = request.cookies.get("session_id")
-        try:
-            user = AUTH.get_user_from_session_id(sid)
-            if user:
-                AUTH.destroy_session(user.id)
-                return redirect(url_for("index"))
-            else:
-                abort(403)
-        except:
+        user = AUTH.get_user_from_session_id(sid)
+        if user:
+            AUTH.destroy_session(user.id)
+            return redirect(url_for("index"))
+        else:
             abort(403)
 
 
