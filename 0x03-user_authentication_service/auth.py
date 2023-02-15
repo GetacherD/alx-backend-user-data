@@ -86,3 +86,13 @@ class Auth:
             return uid
         except Exception:
             raise ValueError
+
+    def update_password(self, reset_token: str, password: str) -> None:
+        """ update password """
+        try:
+            user = self._db.find_user_by(reset_token=reset_token)
+            hpwd = _hash_password(password)
+            user.hashed_password = hpwd
+            self._db._session.commit()
+        except Exception:
+            raise ValueError
