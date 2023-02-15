@@ -93,6 +93,7 @@ class Auth:
             user = self._db.find_user_by(reset_token=reset_token)
             hpwd = _hash_password(password)
             user.hashed_password = hpwd
+            user.reset_token = None
             self._db._session.commit()
         except Exception:
             raise ValueError
