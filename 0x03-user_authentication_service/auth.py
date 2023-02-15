@@ -5,6 +5,7 @@ Auth module
 import bcrypt
 from db import DB, User
 from uuid import uuid4
+from typing import Optional
 
 
 def _hash_password(password: str) -> bytes:
@@ -44,3 +45,14 @@ class Auth:
         except Exception:
             return False
         return False
+
+    def create_session(self, email: str) -> Optional[str]:
+        """ create session id for user """
+        try:
+            user = self._db.find_user_by(email=email)
+            uid = _generate_uuid()
+            user.session_id = uid
+            self._db._session.commit()
+            return uid
+        except Exception:
+            return None
