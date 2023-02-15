@@ -52,7 +52,6 @@ class DB:
     def update_user(self, user_id: int, **kwargs: dict) -> None:
         """ update user """
         usr = self._session.get(User, user_id)
-        print(usr)
         attrs = ["id", "email", "hashed_password", "session_id", "reset_token"]
         for key in kwargs:
             if key not in attrs:
