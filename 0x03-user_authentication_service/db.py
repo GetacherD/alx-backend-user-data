@@ -48,3 +48,16 @@ class DB:
         if not usr:
             raise NoResultFound
         return usr
+
+    def update_user(self, user_id: int, **kwargs: dict) -> None:
+        """ update user """
+        usr = self._session.get(User, user_id)
+        attrs = ["id", "email", "hashed_password", "session_id", "reset_token"]
+        for key in kwargs:
+            if key not in attrs:
+                raise ValueError
+        if usr:
+            for key, val in kwargs.items():
+                setattr(usr, key, val)
+        self._session.add(usr)
+        self._session.commit()
