@@ -40,10 +40,10 @@ class DB:
 
     def find_user_by(self, **kwargs: dict) -> User:
         """ get user filter_by kwargs criteria """
+        if not kwargs:
+            raise InvalidRequestError
         try:
             u = self._session.query(User).filter_by(**kwargs)[0]
             return u
-        except IndexError as exc:
-            raise NoResultFound from exc
-        except InvalidRequestError:
-            raise InvalidRequestError
+        except IndexError:
+            raise NoResultFound
