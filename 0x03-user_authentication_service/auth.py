@@ -4,6 +4,7 @@ Auth module
 """
 import bcrypt
 from db import DB, User
+from uuid import uuid4
 
 
 def _hash_password(password: str) -> bytes:
@@ -38,3 +39,7 @@ class Auth:
         except Exception:
             return False
         return False
+
+    def _generate_uuid(self) -> str:
+        """ generate new uuid """
+        return str(uuid4())
