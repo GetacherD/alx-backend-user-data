@@ -56,6 +56,8 @@ class DB:
         except Exception:
             raise ValueError
         attrs = ["id", "email", "hashed_password", "session_id", "reset_token"]
+        if not kwargs:
+            raise ValueError
         for key, val in kwargs.items():
             if key not in attrs:
                 raise ValueError
