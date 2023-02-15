@@ -6,6 +6,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from user import Base, User
+from sqlalchemy.exc import NoResultFound, InvalidRequestError
+from sqlalchemy import select, and_
 
 
 class DB:
@@ -35,3 +37,13 @@ class DB:
         self._session.add(u)
         self._session.commit()
         return u
+
+    def find_user_by(self, **kwargs: dict) -> User:
+        """ get user filter_by kwargs criteria """
+        try:
+            u = self._session.query(User).filter_by(**kwargs)[0]
+            return u
+        except IndexError:
+            raise NoResultFound
+        except InvalidRequestError:
+            raise InvalidRequestError
