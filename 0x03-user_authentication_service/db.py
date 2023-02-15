@@ -52,6 +52,7 @@ class DB:
     def update_user(self, user_id: int, **kwargs: dict) -> None:
         """ update user """
         usr = self._session.get(User, user_id)
+        print(usr)
         attrs = ["id", "email", "hashed_password", "session_id", "reset_token"]
         for key in kwargs:
             if key not in attrs:
@@ -59,5 +60,6 @@ class DB:
         if usr:
             for key, val in kwargs.items():
                 setattr(usr, key, val)
-        self._session.add(usr)
-        self._session.commit()
+
+            self._session.commit()
+        raise ValueError
