@@ -41,16 +41,11 @@ class DB:
 
     def find_user_by(self, **kwargs: dict) -> User:
         """ get user filter_by kwargs criteria """
-        try:
-            usr = self._session.query(User).filter_by(**kwargs).first()
-            if usr:
-                return usr
-            else:
-                raise NoResultFound
-        except NoResultFound:
+        usr = self._session.query(User).filter_by(**kwargs).first()
+        if usr:
+            return usr
+        else:
             raise NoResultFound
-        except InvalidRequestError:
-            raise InvalidRequestError
 
     def update_user(self, user_id: int, **kwargs: dict) -> None:
         """ update user """
