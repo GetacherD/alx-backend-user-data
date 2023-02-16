@@ -41,6 +41,8 @@ class DB:
 
     def find_user_by(self, **kwargs: dict) -> User:
         """ get user filter_by kwargs criteria """
+        if not kwargs:
+            raise InvalidRequestError
         usr = self._session.query(User).filter_by(**kwargs).first()
         if usr:
             return usr
