@@ -42,11 +42,11 @@ class DB:
     def find_user_by(self, **kwargs: dict) -> User:
         """ get user filter_by kwargs criteria """
         try:
-            usr: list = list(self._session.query(User).filter_by(**kwargs))
-            if not usr:
-                raise NoResultFound()
+            usr = self._session.query(User).filter_by(**kwargs).first()
+            if usr:
+                return usr
             else:
-                return usr[0]
+                raise NoResultFound
         except NoResultFound:
             raise NoResultFound
         except InvalidRequestError:
@@ -55,7 +55,7 @@ class DB:
     def update_user(self, user_id: int, **kwargs: dict) -> None:
         """ update user """
         try:
-            usr = self.find_user_by(id=user_id)
+            usr = self.find_user_by(**{"id": user_id})
         except Exception:
             raise ValueError
         attrs = ["id", "email", "hashed_password", "session_id", "reset_token"]
