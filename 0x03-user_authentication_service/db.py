@@ -43,6 +43,10 @@ class DB:
         """ get user filter_by kwargs criteria """
         if not kwargs:
             raise InvalidRequestError
+        keys = ["id", "email", "reset_token", "session_id", "hashed_password"]
+        for key in kwargs:
+            if key not in keys:
+                raise InvalidRequestError
         usr = self._session.query(User).filter_by(**kwargs).first()
         if usr:
             return usr
