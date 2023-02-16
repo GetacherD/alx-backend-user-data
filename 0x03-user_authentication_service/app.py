@@ -41,6 +41,7 @@ def login():
         resp = make_response(
             jsonify({"email": f"{email}", "message": "logged in"}))
         resp.set_cookie("session_id", sid)
+        print(resp)
         return resp
 
 
@@ -88,7 +89,7 @@ def update_password() -> str:
     reset_token = request.form.get("reset_token")
     new_password = request.form.get("new_password")
     if not reset_token or not new_password or not email:
-        abort(400)
+        abort(403)
     try:
         AUTH.update_password(reset_token, new_password)
         return jsonify({"email": email, "message": "Password updated"}), 200
