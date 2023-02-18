@@ -41,7 +41,6 @@ def login():
         resp = make_response(
             jsonify({"email": f"{email}", "message": "logged in"}))
         resp.set_cookie("session_id", sid)
-        print(resp)
         return resp
 
 
