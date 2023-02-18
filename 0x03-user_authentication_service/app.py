@@ -5,6 +5,7 @@ flask app
 from flask import Flask, jsonify, abort, make_response, redirect, url_for
 from auth import Auth
 from flask import request
+from typing import Optional
 
 
 app = Flask(__name__)
@@ -73,7 +74,9 @@ def profile() -> str:
 @app.route("/reset_password", strict_slashes=False, methods=["POST"])
 def get_reset_password_token() -> str:
     """ get reset password token """
-    email: str = request.form.get("email")
+    email: Optional[str] = request.form.get("email")
+    if not email:
+        abort(403)
     try:
         reset_token: str = AUTH.get_reset_password_token(email)
         return jsonify({"email": email, "reset_token": reset_token}), 200
