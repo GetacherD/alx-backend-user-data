@@ -71,7 +71,7 @@ def profile() -> str:
 
 
 @app.route("/reset_password", strict_slashes=False, methods=["POST"])
-def get_reset_password_token():
+def get_reset_password_token() -> str:
     """ get reset password token """
     email = request.form.get("email")
     try:
