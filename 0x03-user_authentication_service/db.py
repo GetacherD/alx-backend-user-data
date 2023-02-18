@@ -39,7 +39,7 @@ class DB:
         self._session.commit()
         return u
 
-    def find_user_by(self, **kwargs) -> User:
+    def find_user_by(self, **kwargs: dict) -> User:
         """ get user filter_by kwargs criteria """
         if not kwargs:
             raise InvalidRequestError
@@ -54,12 +54,13 @@ class DB:
 
     def update_user(self, user_id: int, **kwargs: dict) -> None:
         """ update user """
-        attrs = ["id", "email", "hashed_password", "session_id", "reset_token"]
+        attrs: list = [
+            "id", "email", "hashed_password", "session_id", "reset_token"]
         for key in kwargs:
             if key not in attrs:
                 raise ValueError
         try:
-            usr = self.find_user_by(id=user_id)
+            usr: User = self.find_user_by(id=user_id)
         except Exception:
             raise ValueError
         else:
