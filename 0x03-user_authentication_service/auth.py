@@ -35,6 +35,7 @@ class Auth:
             raise ValueError(f"User {email} already exists")
         pwd = _hash_password(password)
         user = self._db.add_user(email, pwd)
+        self._db._session.add(user)
         self._db._session.commit()
         return user
 
