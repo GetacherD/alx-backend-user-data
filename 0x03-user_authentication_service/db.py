@@ -39,7 +39,7 @@ class DB:
         self._session.commit()
         return u
 
-    def find_user_by(self, **kwargs: dict) -> User:
+    def find_user_by(self, **kwargs) -> User:
         """ get user filter_by kwargs criteria """
         if not kwargs:
             raise InvalidRequestError
@@ -53,7 +53,7 @@ class DB:
             return user
         raise NoResultFound
 
-    def update_user(self, user_id: int, **kwargs: dict) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
         """ update user """
         attrs: list = [
             "id", "email", "hashed_password", "session_id", "reset_token"]
