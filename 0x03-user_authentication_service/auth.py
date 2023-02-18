@@ -34,7 +34,9 @@ class Auth:
         if usr:
             raise ValueError(f"User {email} already exists")
         pwd = _hash_password(password)
-        return self._db.add_user(email, pwd)
+        user = self._db.add_user(email, pwd)
+        self._db._session.commit()
+        return user
 
     def valid_login(self, email: str, password: str) -> bool:
         """ check valid user """
